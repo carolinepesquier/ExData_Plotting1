@@ -10,7 +10,7 @@ unzip(zipfile)
 
 ## Read only relevant data
 datatable=read.table("./household_power_consumption.txt", skip=
-                       grep("1/2/2007", readLines("household_power_consumption.txt"))[1]-1,nrows=2880,sep=";")
+                       grep("1/2/2007", readLines("household_power_consumption.txt"))[1]-1,nrows=2880,sep=";",na.strings="?")
 
 ## Name the columns
 colnames(datatable)<-c("Date","Time","Global_Active_Power","Global_Reactive_Power","Voltage","Global_intensity","Sub_metering1","Sub_metering2","Sub_metering3")
@@ -30,7 +30,7 @@ with(datatable, hist(Global_Active_Power,xlab="Global Active Power (kilowatts)",
 
 ##3. Export as PNG
 dev.copy(png,file="plot1.png")
-dev.off
+dev.off()
 
 
 

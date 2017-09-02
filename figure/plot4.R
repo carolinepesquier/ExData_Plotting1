@@ -10,7 +10,7 @@ unzip(zipfile)
 
 ## Read only relevant data
 datatable=read.table("./household_power_consumption.txt", skip=
-                       grep("1/2/2007", readLines("household_power_consumption.txt"))[1]-1,nrows=2880,sep=";")
+                       grep("1/2/2007", readLines("household_power_consumption.txt"))[1]-1,nrows=2880,sep=";", na.strings="?")
 
 ## Name the columns
 colnames(datatable)<-c("Date","Time","Global_Active_Power","Global_Reactive_Power",
@@ -22,8 +22,6 @@ datatable$Date<-as.Date(datatable$Date,"%d/%m/%Y")
 datatable$Time<-times(datatable$Time)
 datatable<-mutate(datatable, Time = paste(datatable$Date,datatable$Time,sep=" "))
 datatable$Time<-strptime(datatable$Time,"%Y-%m-%d %H:%M:%S")
-
-## No missig values -- Data have been tested directly in the console
 
 ## Reshape the table to have all the "Sub_metering" columns in 1 column
 dataSub_metering<-cbind(datatable$Time,stack(datatable[,7:9]))
@@ -50,4 +48,4 @@ with(datatable, {
   
 })
 
-dev.off
+dev.off()
